@@ -1,0 +1,6 @@
+CREATE TABLE `inventory` (
+  `id` BIGINT(26) NOT NULL AUTO_INCREMENT,
+  `sku_code` VARCHAR(255) DEFAULT NULL,
+  `quantity` INT(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);

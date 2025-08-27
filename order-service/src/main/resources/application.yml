@@ -1,0 +1,12 @@
+server:
+  port: 8061
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/orderService
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      auto-ddl: none
+    show-sql: true

@@ -1,0 +1,12 @@
+server:
+  port: 8062
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/inventoryService
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      auto-ddl: none
+    show-sql: true
