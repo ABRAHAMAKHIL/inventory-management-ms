@@ -10,3 +10,18 @@ spring:
     hibernate:
       auto-ddl: none
     show-sql: true
+  security:
+      user:
+        name: akhil
+        password: akhil
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+  show-actuator: true
+

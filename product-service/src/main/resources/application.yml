@@ -4,3 +4,13 @@ spring:
       uri: mongodb://localhost:27017/product-service
 server:
   port: 8060
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+  show-actuator: true
