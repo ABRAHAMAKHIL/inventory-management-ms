@@ -10,10 +10,6 @@ spring:
     hibernate:
       auto-ddl: none
     show-sql: true
-  security:
-      user:
-        name: akhil
-        password: akhil
 
 springdoc:
   api-docs:
