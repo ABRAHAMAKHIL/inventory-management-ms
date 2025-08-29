@@ -7,6 +7,7 @@ import com.Mangrove.product_service.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ProductService {
 
   private final ProductRepository repository;
 
-  public void createProduct(ProductRequest apiRequest) {
+  public Product createProduct(ProductRequest apiRequest) {
 
     Product product =
         Product.builder()
@@ -29,6 +30,7 @@ public class ProductService {
     repository.save(product);
 
     log.info("Product {} is saved", product.getId());
+    return product;
   }
 
   public List<ProductResponse> fetchAllResponse() {
@@ -45,5 +47,11 @@ public class ProductService {
                     .price(items.getPrice())
                     .build())
         .toList();
+  }
+
+  @Transactional
+  public void deleteAllProducts() {
+
+    repository.deleteAll();
   }
 }
