@@ -1,6 +1,7 @@
 package com.Mangrove.order_service.service;
 
 import com.Mangrove.order_service.entity.Order;
+import com.Mangrove.order_service.event.OrderPlacedEvent;
 import com.Mangrove.order_service.exception.InventoryExceptions;
 import com.Mangrove.order_service.outbound.InventoryService;
 import com.Mangrove.order_service.outbound.InventoryServiceForStockUpdate;
@@ -8,6 +9,7 @@ import com.Mangrove.order_service.repository.OrderRepository;
 import com.Mangrove.order_service.request.OrderRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -20,7 +22,7 @@ public class OrderService {
   private final OrderRepository orderRepository;
   private final InventoryService inventoryService;
   private final InventoryServiceForStockUpdate inventoryServiceForStockUpdate;
-
+  private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
   public void placeOrder(OrderRequest orderRequest) {
     var isProductInStock =
@@ -36,6 +38,16 @@ public class OrderService {
               .build();
 
       orderRepository.save(order);
+
+      OrderPlacedEvent orderPlacedEvent =
+          new OrderPlacedEvent(order.getNumber(), orderRequest.userDetails().email());
+      log.info(
+          "Start sending orderPlacedEvent {} event to Kafka topic order-place", orderPlacedEvent);
+      kafkaTemplate.send("order-placed", orderPlacedEvent);
+
+      log.info(
+          "End sending orderPlacedEvent {} event to Kafka topic order-place", orderPlacedEvent);
+
       updateInventory(order.getSkuCode(), order.getQuantity());
     } else {
 

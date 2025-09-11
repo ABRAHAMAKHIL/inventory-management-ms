@@ -14,6 +14,16 @@ spring:
     user:
       name: akhil
       password: akhil
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    template:
+      default-topic: order-placed
+
+
+
 
 inventory:
   api-gateway:
@@ -70,3 +80,5 @@ resilience4j:
       inventory:
         max-attempts: 3
         wait-duration: 2s
+
+
